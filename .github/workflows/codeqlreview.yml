@@ -15,7 +15,6 @@ jobs:
     permissions:
       security-events: write # Required for code scanning
       contents: read
-      pull-requests: write # Required to comment on PRs
     strategy:
       fail-fast: false
       matrix:
@@ -32,60 +31,23 @@ jobs:
       with:
         node-version: 18
 
-    # Install dependencies with error handling
+    # Install dependencies
     - name: Install dependencies
-      id: install
       run: npm install
-      continue-on-error: true
 
-    # Comment on PR if npm install fails
-    - name: Comment on PR for npm install failure
-      if: ${{ steps.install.outcome == 'failure' && github.event_name == 'pull_request' }}
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const { issue: { number: issue_number }, repo: { owner, repo } } = context;
-          github.rest.issues.createComment({
-            owner,
-            repo,
-            issue_number,
-            body: `**npm install failed**\n\nThere was an error during dependency installation. Please check your package.json and dependencies.`
-          });
-
-    # Build the project with error handling
+    # Build the project
     - name: Build project
-      id: build
       run: npm run build
-      continue-on-error: true
-      if: ${{ steps.install.outcome == 'success' }}
 
-    # Comment on PR if npm build fails
-    - name: Comment on PR for npm build failure
-      if: ${{ steps.build.outcome == 'failure' && github.event_name == 'pull_request' }}
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const { issue: { number: issue_number }, repo: { owner, repo } } = context;
-          github.rest.issues.createComment({
-            owner,
-            repo,
-            issue_number,
-            body: `**npm build failed**\n\nThere was an error during the build process. Please check your code for errors.`
-          });
-
-    # Initialize CodeQL only if install was successful
+    # Initialize CodeQL
     - name: Initialize CodeQL
-      if: ${{ steps.install.outcome == 'success' }}
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         queries: +security-extended,security-and-quality
 
-    # Run CodeQL Analysis only if install was successful
+    # Run CodeQL Analysis
     - name: Perform CodeQL Analysis
-      if: ${{ steps.install.outcome == 'success' }}
       uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
