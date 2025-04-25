@@ -13,7 +13,7 @@ export default function LoginPage() {
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{' '}
             <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-              create a new account
+              create a new 
             </Link>
           </p>
         </div>
