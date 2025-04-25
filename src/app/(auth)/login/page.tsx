@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { signIn } from '@/auth';
-import { FaGoogle, FaGithub, FaTwitter } from 'react-icons/fa';
 
 export default function LoginPage() {
   return (
@@ -13,7 +12,7 @@ export default function LoginPage() {
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{' '}
             <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-              create a new 
+              create a new Account
             </Link>
           </p>
         </div>
@@ -95,7 +94,7 @@ export default function LoginPage() {
                     className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                   >
                     <span className="sr-only">Sign in with Google</span>
-                    <FaGoogle className="h-5 w-5 text-red-500" />
+                    
                   </button>
                 </form>
               </div>
@@ -109,7 +108,7 @@ export default function LoginPage() {
                     className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                   >
                     <span className="sr-only">Sign in with GitHub</span>
-                    <FaGithub className="h-5 w-5" />
+                    
                   </button>
                 </form>
               </div>
@@ -123,7 +122,6 @@ export default function LoginPage() {
                     className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                   >
                     <span className="sr-only">Sign in with Twitter</span>
-                    <FaTwitter className="h-5 w-5 text-blue-400" />
                   </button>
                 </form>
               </div>
